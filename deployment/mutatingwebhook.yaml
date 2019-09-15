@@ -1,0 +1,22 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: mutating-lxcfs-admission-webhook-cfg
+  labels:
+    app: lxcfs-admission-webhook
+webhooks:
+  - name: mutating.lxcfs-admission-webhook.aliyun.com
+    clientConfig:
+      service:
+        name: lxcfs-admission-webhook-svc
+        namespace: default
+        path: "/mutate"
+      caBundle: ${CA_BUNDLE}
+    rules:
+      - operations: [ "CREATE" ]
+        apiGroups: ["core", ""]
+        apiVersions: ["v1"]
+        resources: ["pods"]
+    namespaceSelector:
+      matchLabels:
+        lxcfs-admission-webhook: enabled
