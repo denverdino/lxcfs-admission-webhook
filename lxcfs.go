@@ -12,8 +12,8 @@ import (
 )
 
 const (
-	defaultAnnotation      = "initializer.kubernetes.io/lxcfs"
-	defaultNamespace       = "default"
+	defaultAnnotation = "initializer.kubernetes.io/lxcfs"
+	defaultNamespace  = "default"
 )
 
 var (
@@ -60,6 +60,10 @@ var volumeMountsTemplate = []corev1.VolumeMount{
 	{
 		Name:      "lxcfs-proc-loadavg",
 		MountPath: "/proc/loadavg",
+	},
+	{
+		Name:      "lxcfs-sys-devices-system-cpu-online",
+		MountPath: "/sys/devices/system/cpu/online",
 	},
 }
 var volumesTemplate = []corev1.Volume{
@@ -116,6 +120,14 @@ var volumesTemplate = []corev1.Volume{
 		VolumeSource: corev1.VolumeSource{
 			HostPath: &corev1.HostPathVolumeSource{
 				Path: "/var/lib/lxcfs/proc/loadavg",
+			},
+		},
+	},
+	{
+		Name: "lxcfs-sys-devices-system-cpu-online",
+		VolumeSource: corev1.VolumeSource{
+			HostPath: &corev1.HostPathVolumeSource{
+				Path: "/var/lib/lxcfs/sys/devices/system/cpu/online",
 			},
 		},
 	},
