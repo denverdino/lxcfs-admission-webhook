@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 
 	"github.com/golang/glog"
 	"k8s.io/api/admission/v1beta1"
@@ -194,10 +195,15 @@ func createPodPatch(pod *corev1.Pod) ([]byte, error) {
 		},
 	}
 
-	if pod.Annotations == nil || pod.Annotations[admissionWebhookAnnotationStatusKey] == "" {
+	if pod.Annotations == nil {
 		op.Op = "add"
 	} else {
-		op.Op = "replace"
+		op.Op = "add"
+		if pod.Annotations[admissionWebhookAnnotationStatusKey] != "" {
+			op.Op = " replace"
+		}
+		op.Path = "/metadata/annotations/" + escapeJSONPointerValue(admissionWebhookAnnotationStatusKey)
+		op.Value = "mutated"
 	}
 
 	patches = append(patches, op)
@@ -258,4 +264,9 @@ func (whsvr *WebhookServer) validatePod(ar *v1beta1.AdmissionReview) *v1beta1.Ad
 	return &v1beta1.AdmissionResponse{
 		Allowed: true,
 	}
+}
+
+func escapeJSONPointerValue(in string) string {
+	step := strings.Replace(in, "~", "~0", -1)
+	return strings.Replace(step, "/", "~1", -1)
 }
