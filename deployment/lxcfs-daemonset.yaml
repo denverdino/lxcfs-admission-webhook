@@ -31,6 +31,8 @@ spec:
           mountPropagation: Bidirectional
         - name: usr-local
           mountPath: /usr/local
+        - name: usr-lib64
+          mountPath: /usr/lib64
       volumes:
       - name: cgroup
         hostPath:
@@ -38,6 +40,9 @@ spec:
       - name: usr-local
         hostPath:
           path: /usr/local
+      - name: usr-lib64
+        hostPath:
+          path: /usr/lib64
       - name: lxcfs
         hostPath:
           path: /var/lib/lxcfs

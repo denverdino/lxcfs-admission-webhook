@@ -12,6 +12,11 @@ mkdir -p /usr/local/lib/lxcfs /var/lib/lxcfs
 cp -f /lxcfs/lxcfs /usr/local/bin/lxcfs
 cp -f /lxcfs/liblxcfs.so /usr/local/lib/lxcfs/liblxcfs.so
 
+cp -f /lxcfs/libfuse.so.2.9.2 /usr/lib64/libfuse.so.2.9.2
+cp -f /lxcfs/libulockmgr.so.1.0.1 /usr/lib64/libulockmgr.so.1.0.1
+
+ln -s /usr/lib64/libfuse.so.2.9.2 /usr/lib64/libfuse.so.2
+ln -s /usr/lib64/libulockmgr.so.1.0.1 /usr/lib64/libulockmgr.so.1
 
 # Mount
 exec nsenter -m/proc/1/ns/mnt /usr/local/bin/lxcfs /var/lib/lxcfs/
