@@ -25,46 +25,54 @@ var (
 	requireAnnotation bool
 )
 
-// -v /var/lib/lxcfs/proc/cpuinfo:/proc/cpuinfo:rw
-// -v /var/lib/lxcfs/proc/diskstats:/proc/diskstats:rw
-// -v /var/lib/lxcfs/proc/meminfo:/proc/meminfo:rw
-// -v /var/lib/lxcfs/proc/stat:/proc/stat:rw
-// -v /var/lib/lxcfs/proc/swaps:/proc/swaps:rw
-// -v /var/lib/lxcfs/proc/uptime:/proc/uptime:rw
-// -v /var/lib/lxcfs/proc/loadavg:/proc/loadavg:rw
+// -v /var/lib/lxcfs/proc/cpuinfo:/proc/cpuinfo:ro
+// -v /var/lib/lxcfs/proc/diskstats:/proc/diskstats:ro
+// -v /var/lib/lxcfs/proc/meminfo:/proc/meminfo:ro
+// -v /var/lib/lxcfs/proc/stat:/proc/stat:ro
+// -v /var/lib/lxcfs/proc/swaps:/proc/swaps:ro
+// -v /var/lib/lxcfs/proc/uptime:/proc/uptime:ro
+// -v /var/lib/lxcfs/proc/loadavg:/proc/loadavg:ro
 var volumeMountsTemplate = []corev1.VolumeMount{
 
 	{
 		Name:      "lxcfs-proc-cpuinfo",
 		MountPath: "/proc/cpuinfo",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-meminfo",
 		MountPath: "/proc/meminfo",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-diskstats",
 		MountPath: "/proc/diskstats",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-stat",
 		MountPath: "/proc/stat",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-swaps",
 		MountPath: "/proc/swaps",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-uptime",
 		MountPath: "/proc/uptime",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-proc-loadavg",
 		MountPath: "/proc/loadavg",
+		ReadOnly:  true,
 	},
 	{
 		Name:      "lxcfs-sys-devices-system-cpu-online",
 		MountPath: "/sys/devices/system/cpu/online",
+		ReadOnly:  true,
 	},
 }
 var volumesTemplate = []corev1.Volume{
