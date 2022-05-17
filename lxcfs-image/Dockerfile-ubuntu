@@ -1,0 +1,19 @@
+FROM ubuntu:20.04 as build
+RUN apt -y update
+RUN apt -y install libfuse-dev libpam-dev wget pkg-config gcc automake autoconf libtool make
+ENV LXCFS_VERSION 3.1.2
+RUN wget https://linuxcontainers.org/downloads/lxcfs/lxcfs-$LXCFS_VERSION.tar.gz && \
+	mkdir /lxcfs && tar xzvf lxcfs-$LXCFS_VERSION.tar.gz -C /lxcfs  --strip-components=1 && \
+	cd /lxcfs && ./configure && make
+
+FROM ubuntu:20.04
+STOPSIGNAL SIGINT
+COPY --from=build /lxcfs/lxcfs /usr/local/bin/lxcfs
+COPY --from=build /lxcfs/.libs/liblxcfs.so /usr/local/lib/lxcfs/liblxcfs.so
+COPY --from=build /lxcfs/lxcfs /lxcfs/lxcfs
+COPY --from=build /lxcfs/.libs/liblxcfs.so /lxcfs/liblxcfs.so
+COPY --from=build /usr/lib/x86_64-linux-gnu/libfuse.so.2.9.9 /lxcfs/libfuse.so.2.9.2
+COPY --from=build /usr/lib/x86_64-linux-gnu/libulockmgr.so.1.0.1 /lxcfs/libulockmgr.so.1.0.1
+
+COPY start.sh /
+CMD ["/start.sh"]
