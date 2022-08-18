@@ -9,17 +9,21 @@ nsenter -m/proc/1/ns/mnt [ -L /etc/mtab ] || \
 rm -rf /var/lib/lxcfs/*
 
 # Prepare
-mkdir -p /usr/local/lib/lxcfs /var/lib/lxcfs
+mkdir -p /usr/local/lib/lxcfs /var/lib/lxcfs /usr/lib64/lxcfs/
 
 # Update lxcfs
 cp -f /lxcfs/lxcfs /usr/local/bin/lxcfs
 cp -f /lxcfs/liblxcfs.so /usr/local/lib/lxcfs/liblxcfs.so
+cp -f /lxcfs/liblxcfs.so /usr/lib64/lxcfs/liblxcfs.so
 
-cp -f /lxcfs/libfuse.so.2.9.2 /usr/lib64/libfuse.so.2.9.2
+cp -f /lxcfs/libfuse.so.2.9.2     /usr/lib64/libfuse.so.2.9.2
 cp -f /lxcfs/libulockmgr.so.1.0.1 /usr/lib64/libulockmgr.so.1.0.1
 
-ln -s /usr/lib64/libfuse.so.2.9.2 /usr/lib64/libfuse.so.2
+rm -f /usr/lib64/libfuse.so.2 /usr/lib64/libulockmgr.so.1
+
+ln -s /usr/lib64/libfuse.so.2.9.2     /usr/lib64/libfuse.so.2
 ln -s /usr/lib64/libulockmgr.so.1.0.1 /usr/lib64/libulockmgr.so.1
 
 # Mount
 exec nsenter -m/proc/1/ns/mnt /usr/local/bin/lxcfs /var/lib/lxcfs/
+

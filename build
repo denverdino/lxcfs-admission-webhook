@@ -2,9 +2,5 @@
 
 DOCKER_USER=denverdino
 
-dep ensure -v
-CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o lxcfs-admission-webhook
-docker build --no-cache -t registry.cn-hangzhou.aliyuncs.com/${DOCKER_USER}/lxcfs-admission-webhook:v1 .
-rm -rf lxcfs-admission-webhook
-
-docker push registry.cn-hangzhou.aliyuncs.com/${DOCKER_USER}/lxcfs-admission-webhook:v1
+docker build --no-cache -t registry.cn-hangzhou.aliyuncs.com/${DOCKER_USER}/lxcfs-admission-webhook:v2 .
+docker push registry.cn-hangzhou.aliyuncs.com/${DOCKER_USER}/lxcfs-admission-webhook:v2
