@@ -54,21 +54,23 @@ var volumeMountsTemplate = []corev1.VolumeMount{
 		MountPath: "/proc/stat",
 		ReadOnly:  true,
 	},
-	{
-		Name:      "lxcfs-proc-swaps",
-		MountPath: "/proc/swaps",
-		ReadOnly:  true,
-	},
+    // docker-ce do not allow to mount 'swap' and 'loadavg'
+    // reference: https://github.com/docker/docker-ce/blob/master/components/engine/contrib/apparmor/template.go line 113
+	//{
+	//	Name:      "lxcfs-proc-swaps",
+	//	MountPath: "/proc/swaps",
+	//	ReadOnly:  true,
+	//},
 	{
 		Name:      "lxcfs-proc-uptime",
 		MountPath: "/proc/uptime",
 		ReadOnly:  true,
 	},
-	{
-		Name:      "lxcfs-proc-loadavg",
-		MountPath: "/proc/loadavg",
-		ReadOnly:  true,
-	},
+	//{
+	//	Name:      "lxcfs-proc-loadavg",
+	//	MountPath: "/proc/loadavg",
+	//	ReadOnly:  true,
+	//},
 	{
 		Name:      "lxcfs-sys-devices-system-cpu-online",
 		MountPath: "/sys/devices/system/cpu/online",
@@ -108,14 +110,14 @@ var volumesTemplate = []corev1.Volume{
 			},
 		},
 	},
-	{
-		Name: "lxcfs-proc-swaps",
-		VolumeSource: corev1.VolumeSource{
-			HostPath: &corev1.HostPathVolumeSource{
-				Path: "/var/lib/lxcfs/proc/swaps",
-			},
-		},
-	},
+	//{
+	//	Name: "lxcfs-proc-swaps",
+	//	VolumeSource: corev1.VolumeSource{
+	//		HostPath: &corev1.HostPathVolumeSource{
+	//			Path: "/var/lib/lxcfs/proc/swaps",
+	//		},
+	//	},
+	//},
 	{
 		Name: "lxcfs-proc-uptime",
 		VolumeSource: corev1.VolumeSource{
@@ -124,14 +126,14 @@ var volumesTemplate = []corev1.Volume{
 			},
 		},
 	},
-	{
-		Name: "lxcfs-proc-loadavg",
-		VolumeSource: corev1.VolumeSource{
-			HostPath: &corev1.HostPathVolumeSource{
-				Path: "/var/lib/lxcfs/proc/loadavg",
-			},
-		},
-	},
+	//{
+	//	Name: "lxcfs-proc-loadavg",
+	//	VolumeSource: corev1.VolumeSource{
+	//		HostPath: &corev1.HostPathVolumeSource{
+	//			Path: "/var/lib/lxcfs/proc/loadavg",
+	//		},
+	//	},
+	//},
 	{
 		Name: "lxcfs-sys-devices-system-cpu-online",
 		VolumeSource: corev1.VolumeSource{
